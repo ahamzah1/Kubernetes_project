@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: porject-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: project # This is the app as declared in the deployment.
+  ports:
+    - port: 1234 # This is a port that is available to the cluster, in this case it can be ~ anything
+      protocol: TCP
+      targetPort: 3003 # This is the target port

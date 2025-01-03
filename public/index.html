@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App with Image</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    input {
+      width: 70%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Todo App with Hourly Image</h1>
+  <img src="/image" alt="Hourly Image" />
+  <input type="text" id="todoInput" placeholder="Enter your todo (max 140 characters)" maxlength="140" />
+  <button id="addTodoBtn">Send</button>
+  <ul id="todoList"></ul>
+
+  <script>
+    const todoInput = document.getElementById('todoInput');
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    const todoList = document.getElementById('todoList');
+    const backendUrl = "http://127.0.0.1:8081/todos"; 
+
+    // Function to render todos in the list
+    const renderTodos = (todos) => {
+      todoList.innerHTML = '';
+      todos.forEach((todo) => {
+        const li = document.createElement('li');
+        li.textContent = todo.text; // Updated to match the expected structure { id, text, createdAt }
+        todoList.appendChild(li);
+      });
+    };
+
+    // Fetch todos from the backend
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch(backendUrl);
+        if (response.ok) {
+          const data = await response.json(); // Assuming response is { todos: [...] }
+          renderTodos(data.todos); // Use data.todos for rendering
+        } else {
+          console.error("Failed to fetch todos:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+
+    // Add a new todo
+    const addTodo = async () => {
+      const todoText = todoInput.value.trim();
+      if (todoText.length === 0 || todoText.length > 140) {
+        alert("Todo must be between 1 and 140 characters!");
+        return;
+      }
+
+      try {
+        const response = await fetch(backendUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ todo: todoText }),
+        });
+
+        if (response.ok) {
+          fetchTodos(); // Re-fetch all todos to update the list
+        } else {
+          console.error('Failed to add todo:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error adding todo:', error);
+      }
+
+      todoInput.value = '';
+    };
+
+    // Event listener for the "Send" button
+    addTodoBtn.addEventListener('click', addTodo);
+
+    // Fetch todos on page load
+    fetchTodos();
+  </script>
+</body>
+</html>
