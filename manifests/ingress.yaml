@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dwk-material-ingress
+  namespace: project
 spec:
   rules:
   - http:
@@ -10,7 +11,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: porject-svc
+            name: project-svc
             port:
               number: 1234
       - path: /todos
