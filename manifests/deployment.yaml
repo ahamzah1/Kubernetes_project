@@ -33,3 +33,26 @@ spec:
           env:
            - name: PORT
              value: "3003"
+        - name: todo-app
+          image: ahamzahhh/project_todo:v7
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: PORT
+              value: "4000"
+            - name: REDIS_HOST
+              value: "redis-svc" # Service name of Redis
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PASSWORD
+
+        

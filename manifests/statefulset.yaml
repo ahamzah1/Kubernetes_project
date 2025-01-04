@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-stset
+  namespace: project
+spec:
+  serviceName: redis-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redisapp
+  template:
+    metadata:
+      labels:
+        app: redisapp
+    spec:
+      containers:
+        - name: redis
+          image: redis:6.2
+          ports:
+            - name: web
+              containerPort: 6379
+          volumeMounts:
+            - name: redis-data-storage
+              mountPath: /data
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PASSWORD
+          command: ["redis-server"]
+          args:
+            - "--requirepass"
+            - "$(REDIS_PASSWORD)"
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata: # Fixed capitalization
+  name: redis-svc
+  namespace: project
+  labels:
+    app: redisapp # Updated to match StatefulSet labels
+spec:
+  ports:
+    - port: 6379
+      name: web
+  clusterIP: None
+  selector:
+    app: redisapp

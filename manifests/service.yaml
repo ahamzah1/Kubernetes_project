@@ -6,8 +6,13 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: project # This is the app as declared in the deployment.
+    app: project # This matches the label in the pod template
   ports:
-    - port: 1234 # This is a port that is available to the cluster, in this case it can be ~ anything
+    - name: frontend  # Name for the frontend port
+      port: 3003  # Port for the frontend
+      targetPort: 3003  # This is the port inside the container (frontend)
       protocol: TCP
-      targetPort: 3003 # This is the target port
+    - name: backend  # Name for the backend port
+      port: 4000  # Port for the todo app backend
+      targetPort: 4000  # This is the port inside the container (todo app)
+      protocol: TCP

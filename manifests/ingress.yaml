@@ -13,11 +13,11 @@ spec:
           service:
             name: project-svc
             port:
-              number: 1234
-      - path: /todos
+              name: frontend
+      - path: /todos # Example path for the backend API (optional)
         pathType: Prefix
         backend:
           service:
-            name: todo-svc
+            name: project-svc
             port:
-              number: 2345
+              name: backend  # Backend service on port 4000
