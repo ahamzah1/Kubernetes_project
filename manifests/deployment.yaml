@@ -34,7 +34,7 @@ spec:
            - name: PORT
              value: "3003"
         - name: todo-app
-          image: ahamzahhh/project_todo:v9
+          image: ahamzahhh/project_todo:v8
           resources:
             limits:
               memory: "512Mi"
