@@ -6,7 +6,6 @@ resources:
   - manifests/deployment_todo.yaml
   - manifests/service_todo.yaml
   - manifests/statefulset.yaml
-  - manifests/secrets.yaml
 
 images:
 - name: PROJECT/IMAGE
