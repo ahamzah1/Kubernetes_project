@@ -62,7 +62,7 @@
       todoList.innerHTML = '';
       todos.forEach((todo) => {
         const li = document.createElement('li');
-        li.textContent = todo.text; // Updated to match the expected structure { id, text, createdAt }
+        li.textContent = `${todo.text} testing`; // Updated to match the expected structure { id, text, createdAt }
         todoList.appendChild(li);
       });
     };
