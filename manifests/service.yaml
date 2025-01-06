@@ -2,17 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: project-svc
-  namespace: project
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: project # This matches the label in the pod template
   ports:
-    - name: frontend  # Name for the frontend port
-      port: 3003  # Port for the frontend
+    - port: 80  # Port for the frontend
       targetPort: 3003  # This is the port inside the container (frontend)
-      protocol: TCP
-    - name: backend  # Name for the backend port
-      port: 4000  # Port for the todo app backend
-      targetPort: 4000  # This is the port inside the container (todo app)
       protocol: TCP

@@ -1,0 +1,13 @@
+# Service for the project-todo app
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-todo-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: project-todo
+  ports:
+    - port: 80
+      targetPort: 3001
+      protocol: TCP 

@@ -1,0 +1,51 @@
+# Deployment for the project-todo app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-todo-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-todo
+  template:
+    metadata:
+      labels:
+        app: project-todo
+    spec:
+      containers:
+        - name: project-todo
+          image: ahamzahhh/project_todo:v10
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: PORT
+              value: "3001"
+            - name: REDIS_HOST
+              value: "redis-svc" # Service name of Redis
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PASSWORD
+          readinessProbe: # Added readiness probe
+            httpGet:
+              path: "/todos" # Update this path if your app uses a different health-check endpoint
+              port: 3001 # Port where the app is listening
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 10 # Frequency of checks
+            failureThreshold: 3 # Number of failed attempts before marking the pod as not ready
+          livenessProbe: # Optional: Liveness probe for app health
+            httpGet:
+              path: "/todos"
+              port: 3001
+            initialDelaySeconds: 15
+            timeoutSeconds: 5

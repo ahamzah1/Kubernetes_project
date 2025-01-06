@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/service.yaml
+  - manifests/deployment.yaml
+  - manifests/deployment_todo.yaml
+  - manifests/service_todo.yaml
+  - manifests/statefulset.yaml
+  - manifests/secrets.yaml
+
+images:
+- name: PROJECT/IMAGE
+  newName: gcr.io/${PROJECT_ID}/${IMAGE}:${BRANCH}-${GITHUB_SHA}
