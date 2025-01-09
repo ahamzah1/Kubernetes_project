@@ -5,7 +5,7 @@ metadata:
 spec:
   storageClassName: standard-rwo # this is the name of the persistent volume we are claiming
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
