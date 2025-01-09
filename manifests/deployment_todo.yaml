@@ -29,7 +29,7 @@ spec:
             - name: REDIS_HOST
               value: "redis-svc" # Service name of Redis
             - name: REDIS_PORT
-              value: "6378"
+              value: "6379"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
