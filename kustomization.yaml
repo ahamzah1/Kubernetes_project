@@ -10,4 +10,4 @@ resources:
 images:
 - name: PROJECT/IMAGE
   newName: ahamzahhh/project
-  newTag: fe253d6c66fc509446c3f7d25ce3e63642315c12
+  newTag: 1bd22ba36aac9a18d2a8a8f071ac094734bb416a
