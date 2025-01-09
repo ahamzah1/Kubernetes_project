@@ -36,7 +36,7 @@ spec:
     - metadata:
         name: redis-data-storage
       spec:
-        accessModes: ["ReadWriteMany"]
+        accessModes: ["ReadWriteOnce"]
         storageClassName: local-path
         resources:
           requests:
