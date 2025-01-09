@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: project-todo
-          image: ahamzahhh/project_todo:v10
+          image: ahamzahhh/project_todo:v11
           resources:
             limits:
               memory: "512Mi"
@@ -29,7 +29,7 @@ spec:
             - name: REDIS_HOST
               value: "redis-svc" # Service name of Redis
             - name: REDIS_PORT
-              value: "6379"
+              value: "6378"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -37,15 +37,13 @@ spec:
                   key: REDIS_PASSWORD
           readinessProbe: # Added readiness probe
             httpGet:
-              path: "/todos" # Update this path if your app uses a different health-check endpoint
-              port: 3001 # Port where the app is listening
+              path: "/healthz" 
+              port: 3001 
             initialDelaySeconds: 10
-            timeoutSeconds: 5
-            periodSeconds: 10 # Frequency of checks
-            failureThreshold: 3 # Number of failed attempts before marking the pod as not ready
-          livenessProbe: # Optional: Liveness probe for app health
+            periodSeconds: 5
+          livenessProbe: 
             httpGet:
-              path: "/todos"
+              path: "/healthz"
               port: 3001
             initialDelaySeconds: 15
-            timeoutSeconds: 5
+            periodSeconds: 5
